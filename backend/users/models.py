@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
-
+    """Модель юзера"""
     class Role(models.TextChoices):
         # choices = None
         USER = 'user', _('Пользователь')
@@ -46,9 +46,17 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+    @property
+    def is_user(self):
+        return self.role == self.Role.USER
+
+    @property
+    def is_admin(self):
+        return self.role == self.Role.ADMIN or self.is_superuser
+
 
 class Subscribe(models.Model):
-    """Модель подписки на авторов."""
+    """Модель подписки на авторов"""
     user = models.ForeignKey(
         User,
         related_name='subscriber',

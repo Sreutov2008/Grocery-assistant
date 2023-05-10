@@ -8,7 +8,7 @@ User = get_user_model()
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    """Кастомизация админ панели (управление пользователями)."""
+    """Кастомная админ панель юзера"""
     list_display = (
         'id',
         'role',
@@ -23,7 +23,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
-    """Кастомизация админ панели (управление подписками)."""
+    """Кастомная админпанель подписок"""
     list_display = (
         'id',
         'user',
@@ -31,4 +31,3 @@ class SubscribeAdmin(admin.ModelAdmin):
     )
     list_display_links = ('id', 'user')
     search_fields = ('user',)
-
