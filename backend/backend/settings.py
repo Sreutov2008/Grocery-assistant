@@ -27,22 +27,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    #'corsheaders',
     'rest_framework.authtoken',
     'djoser',
     'django_filters',
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
     'api.apps.ApiConfig',
-
-
+    'colorfield',
 ]
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -71,11 +68,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-# PostgreSQL добавлю как буду деплоить на сервер, на моём древнем буке с core i3 b 3 гб оперативки
-# не комфортно всё работатет
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -137,6 +129,8 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
+    'LOGIN_FIELD': 'email',
+
     'SERIALIZERS': {
         'user_create': 'api.serializers.CustomUserCreateSerializer',
         'user': 'api.serializers.CustomUserSerializer',
@@ -149,9 +143,3 @@ DJOSER = {
     },
     'HIDE_USERS': False,
 }
-
-#CORS_URLS_REGEX = r'^/api/.*$'
-
-#CORS_ALLOWED_ORIGINS = [
-#     'http://localhost',
-# ]

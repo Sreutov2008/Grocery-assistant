@@ -42,3 +42,7 @@ colorama~=0.4.6
 setuptools~=39.0.1
 django-filter~=23.2
 packaging~=22.0
+isort~=5.11.5
+tomli~=2.0.1
+pytest~=6.2.4
+accessify~=0.3.1

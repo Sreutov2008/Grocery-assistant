@@ -70,7 +70,7 @@ class RecipeViewSet(ModelViewSet):
         methods=['post', 'delete'],
         permission_classes=[IsAuthenticated]
     )
-    def shopping_cart(self, request, pk):
+    def shoppingcarts(self, request, pk):
         """Метод для добавления/удаления из списка покупок."""
         if request.method == 'POST':
             return self.add_to(ShoppingCart, request.user, pk)
@@ -100,13 +100,13 @@ class RecipeViewSet(ModelViewSet):
         detail=False,
         permission_classes=[IsAuthenticated]
     )
-    def download_shopping_cart(self, request):
+    def download_shoppingcarts(self, request):
         """Метод для скачивания списка покупок."""
         user = request.user
-        if not user.shopping_cart.exists():
+        if not user.shoppingcarts.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
         ingredients = IngredientInRecipe.objects.filter(
-            recipe__shopping_cart__user=request.user
+            recipe__shoppingcarts__user=request.user
         ).values(
             'ingredient__name',
             'ingredient__measurement_unit'

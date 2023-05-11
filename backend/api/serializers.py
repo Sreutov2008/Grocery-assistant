@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_extra_fields.fields import Base64ImageField
-from recipes.models import Ingredient, IngredientInRecipe, Recipe, Tag
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import IntegerField, SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer, ReadOnlyField
+
+from recipes.models import Ingredient, IngredientInRecipe, Recipe, Tag
 from users.models import Subscribe
 
 User = get_user_model()
@@ -158,7 +159,7 @@ class RecipeReadSerializer(ModelSerializer):
     ingredients = IngredientInRecipeSerializer(many=True)
     image = Base64ImageField()
     is_favorited = SerializerMethodField(read_only=True)
-    is_in_shopping_cart = SerializerMethodField(read_only=True)
+    is_in_shoppingcarts = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Recipe
@@ -168,7 +169,7 @@ class RecipeReadSerializer(ModelSerializer):
             'author',
             'ingredients',
             'is_favorited',
-            'is_in_shopping_cart',
+            'is_in_shoppingcarts',
             'name',
             'image',
             'text',
@@ -181,11 +182,11 @@ class RecipeReadSerializer(ModelSerializer):
             return False
         return user.favorites.filter(recipe=recipe).exists()
 
-    def get_is_in_shopping_cart(self, recipe):
+    def get_is_in_shoppingcarts(self, recipe):
         user = self.context.get('request').user
         if user.is_anonymous:
             return False
-        return user.shopping_cart.filter(recipe=recipe).exists()
+        return user.shoppingcarts.filter(recipe=recipe).exists()
 
 
 class RecipeWriteSerializer(ModelSerializer):
