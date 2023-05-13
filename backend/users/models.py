@@ -1,16 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import UniqueConstraint
-from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
     """Модель юзера"""
-    class Role(models.TextChoices):
-        # choices = None
-        USER = 'user', _('Пользователь')
-        ADMIN = 'admin', _('Администратор')
-
     username = models.SlugField(
         max_length=150,
         unique=True,
@@ -31,12 +25,6 @@ class User(AbstractUser):
         unique=True,
         verbose_name='Электронная почта'
     )
-    role = models.CharField(
-        max_length=10,
-        choices=Role.choices,
-        default=Role.USER,
-        verbose_name='Права доступа'
-    )
 
     class Meta:
         ordering = ['id']
@@ -45,14 +33,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-
-    @property
-    def is_user(self):
-        return self.role == self.Role.USER
-
-    @property
-    def is_admin(self):
-        return self.role == self.Role.ADMIN or self.is_superuser
 
 
 class Subscribe(models.Model):

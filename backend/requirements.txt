@@ -46,4 +46,4 @@ isort~=5.11.5
 tomli~=2.0.1
 pytest~=6.2.4
 accessify~=0.3.1
-python-dotenv~=0.21.1
+python-dotenv~=0.19.2

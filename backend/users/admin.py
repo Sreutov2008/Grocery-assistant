@@ -11,14 +11,13 @@ class UserAdmin(admin.ModelAdmin):
     """Кастомная админ панель юзера"""
     list_display = (
         'id',
-        'role',
         'username',
         'email',
         'first_name',
         'last_name'
     )
     list_display_links = ('id', 'username')
-    search_fields = ('role', 'username')
+    search_fields = ('username', 'email')
 
 
 @admin.register(Subscribe)
