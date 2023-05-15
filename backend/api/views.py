@@ -61,8 +61,7 @@ class RecipeViewSet(ModelViewSet):
         """Метод для добавления/удаления из избранного."""
         if request.method == 'POST':
             return self.add_to(Favorite, request.user, pk)
-        else:
-            return self.delete_from(Favorite, request.user, pk)
+        return self.delete_from(Favorite, request.user, pk)
 
     @action(
         detail=True,
@@ -73,8 +72,7 @@ class RecipeViewSet(ModelViewSet):
         """Метод для добавления/удаления из списка покупок."""
         if request.method == 'POST':
             return self.add_to(ShoppingCart, request.user, pk)
-        else:
-            return self.delete_from(ShoppingCart, request.user, pk)
+        return self.delete_from(ShoppingCart, request.user, pk)
 
     @private
     def add_to(self, model, user, pk):

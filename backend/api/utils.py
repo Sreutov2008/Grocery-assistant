@@ -16,7 +16,7 @@ def convert_txt(ingredients):
         for ingredient in ingredients
     ])
     shopping_list += f'\n\nFoodgram ({today:%Y})'
-    filename = f'shopping_list.txt'
+    filename = 'shopping_list.txt'
     response = HttpResponse(
         shopping_list, content_type='text.txt; charset=utf-8'
     )
