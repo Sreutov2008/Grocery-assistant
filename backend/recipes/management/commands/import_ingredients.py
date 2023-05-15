@@ -7,7 +7,6 @@ from django.core.management.base import BaseCommand
 
 from recipes.models import Ingredient
 
-
 MESSAGE = 'Данные успешно загружены в таблицу'
 
 logging.basicConfig(
@@ -21,7 +20,7 @@ class Command(BaseCommand):
     """Менеджкоманда для загрузки ингридиентов в БД"""
     def handle(self, *args, **options):
         self.import_ingredients()
-        logging.info(f'Загрузка данных завершена')
+        logging.info('Загрузка данных завершена')
 
     @private
     def import_ingredients(self, file='ingredients.csv'):
