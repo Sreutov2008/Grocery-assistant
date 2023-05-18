@@ -48,3 +48,5 @@ pytest~=6.2.4
 accessify~=0.3.1
 recipes~=0.1
 python-dotenv~=0.21.1
+psycopg2-binary==2.9.3
+gunicorn==20.0.4
