@@ -1,24 +1,15 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import UniqueConstraint
 
 
-class UserRole:
-    USER = 'user'
-    ADMIN = 'admin'
-    choices = [
-        (USER, 'USER'),
-        (ADMIN, 'ADMIN')
-    ]
-
-
 class User(AbstractUser):
-    """Модель пользователя."""
-    username = models.CharField(
-        'Имя пользователя',
+    """Модель юзера"""
+    username = models.SlugField(
         max_length=150,
         unique=True,
-        null=True,
+        verbose_name='Имя пользователя',
     )
     first_name = models.CharField(
         'Имя',
@@ -31,20 +22,13 @@ class User(AbstractUser):
         blank=True
     )
     email = models.EmailField(
-        'Элетронная почта',
         max_length=254,
         unique=True,
+        verbose_name='Электронная почта'
     )
-    role = models.TextField(
-        choices=UserRole.choices,
-        default=UserRole.USER,
-        verbose_name='Пользовательская роль'
-    )
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
     class Meta:
-        ordering = ('id',)
+        ordering = ['id']
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
@@ -53,7 +37,7 @@ class User(AbstractUser):
 
 
 class Subscribe(models.Model):
-    """Модель подписки на авторов."""
+    """Модель подписки на авторов"""
     user = models.ForeignKey(
         User,
         related_name='subscriber',
