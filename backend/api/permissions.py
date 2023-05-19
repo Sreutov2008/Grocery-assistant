@@ -1,22 +1,18 @@
-from rest_framework import permissions
+from rest_framework.permissions import SAFE_METHODS, BasePermission
+
+from users.models import UserRole
 
 
-class IsAdminOrReadOnly(permissions.BasePermission):
-    message = 'Нужны права администратора'
+class IsAdminOrReadOnly(BasePermission):
 
     def has_permission(self, request, view):
-        return (
-            request.method in permissions.SAFE_METHODS
-            or (request.user.is_authenticated and request.user.is_admin)
-        )
+        return (request.method in SAFE_METHODS
+                or request.user.role == UserRole.ADMIN)
 
 
-class IsAdminAuthorOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
-    message = 'Нужны хоть какие-нибудь права, либо просто читай'
+class IsAdminAuthorOrReadOnly(BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        return (
-            request.method in permissions.SAFE_METHODS
-            or request.user.is_admin
-            or request.user == obj.author
-        )
+        return (request.method in ('GET',)
+                or obj.author == request.user
+                or request.user.role == UserRole.ADMIN)
