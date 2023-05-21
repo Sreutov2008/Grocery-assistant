@@ -162,8 +162,6 @@ class RecipeReadSerializer(ModelSerializer):
 
     def get_is_in_shopping_cart(self, recipe):
         user = self.context.get('request').user
-        if user.is_anonymous:
-            return False
         return user.shopping_cart.filter(recipe=recipe).exists()
 
 
@@ -211,8 +209,7 @@ class RecipeWriteSerializer(ModelSerializer):
             raise ValidationError({
                 'tags': 'Нужно выбрать хотя бы один тег!'
             })
-        tags_set = set(value)
-        if len(value) != len(tags_set):
+        if len(value['tags']) > len(set(value['tags'])):
             raise ValidationError({
                 'tags': 'Теги должны быть уникальными!'
             })

@@ -49,6 +49,12 @@ class Ingredient(models.Model):
         ordering = ('name',)
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'measurement_unit'],
+                name='unique_ingredient_model'
+            )
+        ]
 
     def __str__(self):
         return f'{self.name}, {self.measurement_unit}'
@@ -62,7 +68,7 @@ class IngredientInRecipe(models.Model):
         related_name='ingredient_list',
         verbose_name='Ингредиенты в рецепте',
     )
-    amount = models.IntegerField(
+    amount = models.PositiveSmallIntegerField(
         default=1,
         validators=[
             MinValueValidator(1, 'Минимальное значение - 1')
@@ -132,6 +138,11 @@ class Recipe(models.Model):
         ordering = ('-pub_date',)
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'author'],
+                name='unique_recipe_model')
+        ]
 
     def __str__(self):
         return self.name
