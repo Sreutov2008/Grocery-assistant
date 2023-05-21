@@ -112,21 +112,11 @@ class RecipeViewSet(ModelViewSet):
         ).annotate(
             amount=Sum('amount')
         ).order_by('ingredient__name')
-        today = datetime.today()
-        shopping_list = (
-            f'Список покупок для: {user.get_full_name()}\n\n'
-            f'Дата: {today:%Y-%m-%d}\n\n'
-        )
-        shopping_list += '\n'.join([
-            f'- {ingredient["ingredient__name"]} '
-            f'({ingredient["ingredient__measurement_unit"]})'
-            f' - {ingredient["amount"]}'
-            for ingredient in ingredients
-        ])
-        shopping_list += f'\n\nFoodgram ({today:%Y})'
-        filename = f'{user.username}_shopping_list.txt'
-        response = HttpResponse(
-            shopping_list, content_type='text.txt; charset=utf-8'
-        )
-        response['Content-Disposition'] = f'attachment; filename={filename}'
+        html_template = render_to_string('recipes/pdf_template.html',
+                                         {'ingredients': ingredients})
+        html = HTML(string=html_template)
+        result = html.write_pdf()
+        response = HttpResponse(result, content_type='application/pdf;')
+        response['Content-Disposition'] = 'inline; filename=shopping_list.pdf'
+        response['Content-Transfer-Encoding'] = 'binary'
         return response
