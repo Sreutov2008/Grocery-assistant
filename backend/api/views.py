@@ -101,7 +101,21 @@ class RecipeViewSet(ModelViewSet):
     )
     def download_shopping_cart(self, request):
         """Метод для скачивания списка покупок."""
+<<<<<<< HEAD
         ingredients = get_list_ingredients(request.user)
+=======
+        user = request.user
+        if not user.shopping_cart.exists():
+            return Response(status=HTTP_400_BAD_REQUEST)
+        ingredients = IngredientInRecipe.objects.filter(
+            recipe__shopping_cart__user=request.user
+        ).values(
+            'ingredient__name',
+            'ingredient__measurement_unit'
+        ).annotate(
+            amount=Sum('amount')
+        ).order_by('ingredient__name')
+>>>>>>> 4a73bcf254966e3a7bc08182277b3d398a41f179
         html_template = render_to_string('recipes/pdf_template.html',
                                          {'ingredients': ingredients})
         html = HTML(string=html_template)
