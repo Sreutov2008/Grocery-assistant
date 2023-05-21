@@ -4,14 +4,14 @@
 
 [![Django-app workflow](https://github.com/sreutov2008/foodgram-project-react/actions/workflows/main.yml/badge.svg)](https://github.com/sreutov2008/foodgram-project-react/actions/workflows/main.yml)
 
-Пользователи **Foodgram** могут публиковать рецепты (**Recipes**), подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать в формате .txt сводный список продуктов (**Ingredients**), необходимых для приготовления одного или нескольких выбранных блюд.
+Пользователи **Foodgram** могут публиковать рецепты (**Recipes**), подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать в формате .pdf сводный список продуктов (**Ingredients**), необходимых для приготовления одного или нескольких выбранных блюд.
 
 Для удобства навигации по сайту рецепты размечены тэгами (**Tags**)
 
 - Склонируйте проект из репозитория:
 
 ```sh
-$ git clone https://github.com/Mukhinart/foodgram-project-react.git
+$ git clone https://github.com/sreutov2008/foodgram-project-react.git
 ```
 
 - Выполните вход на удаленный сервер
