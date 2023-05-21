@@ -7,7 +7,6 @@ User = get_user_model()
 
 
 class IngredientFilter(FilterSet):
-    """Фильтр ингредиентов по названию"""
     name = filters.CharFilter(lookup_expr='startswith')
 
     class Meta:
@@ -16,15 +15,15 @@ class IngredientFilter(FilterSet):
 
 
 class RecipeFilter(FilterSet):
-    """Фильтр рецептов по автору, тегу, подписке, наличию в списке покупок"""
     tags = filters.ModelMultipleChoiceFilter(
         field_name='tags__slug',
         to_field_name='slug',
         queryset=Tag.objects.all(),
     )
+
     is_favorited = filters.BooleanFilter(method='filter_is_favorited')
-    is_in_shoppingcarts = filters.BooleanFilter(
-        method='filter_is_in_shoppingcarts')
+    is_in_shopping_cart = filters.BooleanFilter(
+        method='filter_is_in_shopping_cart')
 
     class Meta:
         model = Recipe
@@ -32,12 +31,12 @@ class RecipeFilter(FilterSet):
 
     def filter_is_favorited(self, queryset, name, value):
         user = self.request.user
-        if value and user.is_authenticated:
+        if value and not user.is_anonymous:
             return queryset.filter(favorites__user=user)
         return queryset
 
-    def filter_is_in_shopping_carts(self, queryset, name, value):
+    def filter_is_in_shopping_cart(self, queryset, name, value):
         user = self.request.user
-        if value and user.is_authenticated:
-            return queryset.filter(shoppingcarts__user=user)
+        if value and not user.is_anonymous:
+            return queryset.filter(shopping_cart__user=user)
         return queryset
